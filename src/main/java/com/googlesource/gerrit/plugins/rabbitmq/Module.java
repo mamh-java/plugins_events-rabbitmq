@@ -117,7 +117,6 @@ class Module extends AbstractModule {
         new FactoryModuleBuilder()
             .implement(EventWorker.class, UserEventWorker.class)
             .build(EventWorkerFactory.class));
-    install(new RestModule());
     bind(SubscriberSession.Factory.class)
         .to(SubscriberSessionFactoryImpl.class)
         .in(Singleton.class);
@@ -133,6 +132,7 @@ class Module extends AbstractModule {
 
     if (brokerApiEnabled) {
       install(rabbitMqBrokerApiModule);
+      install(new RestModule());
     } else {
       logger.atInfo().log(
           "The RabbitMqBrokerApi is disabled, set enableBrokerApi to true if you want to enable"
